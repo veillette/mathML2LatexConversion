@@ -4,7 +4,7 @@ import re
 def to_latex(text):
 
     """ Remove TeX codes in text"""
-    text = re.sub(r"(\$\$.*?\$\$)", " ", text) 
+    text = re.sub(r"(\$\$.*?\$\$)", " ", text)
 
     """ Find MathML codes and replace it with its LaTeX representations."""
     mml_codes = re.findall(r"(<math.*?<\/math>)", text)
@@ -17,3 +17,19 @@ def to_latex(text):
         latex_code = str(mmldom)
         text = text.replace(mml_code, latex_code)
     return text
+
+import os
+
+for filename in os.listdir('../contents/'):
+    if filename.endswith(".md") or filename.endswith(".py"):
+        file1 = open('../contents/'+filename, "r",encoding="utf8")
+        fileContent = file1.read()
+        file1.close()
+        fileConverted=to_latex(fileContent)
+        print(filename)
+        file2 = open('../contents/'+filename, "w",encoding="utf8")
+        file2.write(fileConverted)
+        file2.close()
+        continue
+    else:
+        continue
